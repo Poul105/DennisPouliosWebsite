@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis Poulios – Engineering & Research</title>
+
+    <!-- Moderne Webfont -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const revealElements = document.querySelectorAll(".reveal");
+  console.log("reveal elements found:", revealElements.length);
+
+  // Fallback: Falls IntersectionObserver nicht verfügbar ist
+  if (!("IntersectionObserver" in window)) {
+    revealElements.forEach(el => el.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target); // <- wichtig: observer, nicht obs
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: "0px 0px -10% 0px"
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+
+    // ---------- Timeline stagger reveal ----------
+  const timelineItems = document.querySelectorAll(".timeline .reveal-item");
+  console.log("timeline items found:", timelineItems.length);
+
+  const itemObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: "0px 0px -10% 0px"
+  });
+
+  timelineItems.forEach((el, i) => {
+    el.style.setProperty("--delay", `${i * 140}ms`); // Zeitversatz pro Item
+    itemObserver.observe(el);
+  });
+
+    // ---------- Interests stagger reveal ----------
+  const interestCards = document.querySelectorAll(".interest-grid .reveal-interest");
+  console.log("interest cards found:", interestCards.length);
+
+  const interestObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: "0px 0px -10% 0px"
+  });
+
+  interestCards.forEach((el, i) => {
+    el.style.setProperty("--delay", `${i * 120}ms`);
+    interestObserver.observe(el);
+  });
+
+
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".site-header");
+  const toggle = document.querySelector(".nav-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (!header || !toggle || !mobileMenu) return;
+
+  toggle.addEventListener("click", () => {
+    const isOpen = header.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
+  });
+
+  // Menü schließen, wenn ein Link geklickt wird
+  mobileMenu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      header.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Menü öffnen");
+    });
+  });
+});
+
+</script>
+
+<body>
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="#top" class="logo">
+                <img
+                    src="Logo2.png"
+                    alt="Dennis Poulios Logo"
+                    class="logo-image"
+                />
+                <div class="logo-text">
+                    <span></span>
+                </div>
+            </a>
+
+            <nav class="main-nav">
+                <div class="lang-switch" aria-label="Language switch">
+                    <a class="lang-link" href="en/index.html">
+                    <img src="https://flagcdn.com/us.svg" alt="English" class="flag-img">
+                    <span>English</span>
+                    </a>
+
+                    <span class="lang-sep" aria-hidden="true"></span>
+                    <a class="lang-link" href="index.html">
+                    <img src="https://flagcdn.com/de.svg" alt="Deutsch" class="flag-img">
+                    <span>Deutsch</span>
+                    </a>
+
+                </div>
+
+                <a href="#about">Über mich</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Erfahrung</a>
+                <a href="#projects">Interessen</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+            <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Menü öffnen">
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+            </button>
+
+            <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile Navigation">
+                <a href="#about">Über mich</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Erfahrung</a>
+                <a href="#projects">Interessen</a>
+                <a href="#contact">Kontakt</a>
+                <div class="lang-switch" aria-label="Language switch">
+                    <a class="lang-link" href="en/index.html">
+                    <img src="https://flagcdn.com/us.svg" alt="English" class="flag-img">
+                    <span>English</span>
+                    </a>
+
+                    <a class="lang-link" href="index.html">
+                    <img src="https://flagcdn.com/de.svg" alt="Deutsch" class="flag-img">
+                    <span>Deutsch</span>
+                    </a>
+
+                </div>
+            </nav>
+
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- Hero -->
+        <section class="hero fade-in delay-1">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <p class="eyebrow">Ingenieur · Forschung · Analyse</p>
+                    <h1>
+                        Ingenieur mit Leidenschaft
+                        für Energie-, Antriebstechnik und experimentelle Physik.
+                    </h1>
+                    <p class="hero-sub">
+                        Ich verbinde analytische Modellierung, Laborerfahrung und
+                        datengetriebene Auswertung, um komplexe technische Systeme
+                        besser zu verstehen – von Verbrennungsanlagen bis zu
+                        energietechnischen Anwendungen.
+                    </p>
+                    <p> Aktuell bin ich auf der Suche nach einer neuen Herausforderung.</p>
+                    <div class="hero-actions">
+                        <span class="fade-in delay-2"> <a href="#contact" class="btn primary">Kontakt aufnehmen</a> </span>
+                        <span class="fade-in delay-3"> <a href="#experience" class="btn primary">Werdegang ansehen</a> </span>
+                    </div>
+                </div>
+                <div class="hero-panel fade-in delay-5">
+                    <img 
+                    img src="Bild_Lebenslauf_woBG3.png"
+                    class="profile-image" 
+                    />
+                    <h6>Dennis Poulios</h6>
+                    <div class="pill-row">
+                        <a href="#experienceDLR" class="pill"><span class="pill-text">DLR</span></a>
+                        <a href="#experienceASE" class="pill"><span class="pill-text">M.Sc. Luft- & Raumfahrttechnik</span></a>
+                        <a href="#experienceMB" class="pill"><span class="pill-text">Daimler</span></a>
+                        <a href="#experienceME" class="pill"><span class="pill-text">B.Sc. Maschinenbau</span></a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-label">Schwerpunkte</span>
+                            <span class="stat-value">Antriebe, Energiesysteme, Modellierung</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Erfahrung</span>
+                            <span class="stat-value">Versuchsdurchführung, Laboraufbau, optische Messtechnik, Datenauswertung, Projektverantwortung</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Interessen</span>
+                            <span class="stat-value">Luft- und Raumfahrt, Kernenergie, Strahlungsphysik, Finanzmarkt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Über mich -->
+        <section id="about" class="section">
+            <div class="container two-column">
+                <div>
+                    <h2>Über mich</h2>
+                    <p>
+                        Ich habe Maschinenbau (B.Sc.) und Luft- und Raumfahrttechnik (M.Sc.)
+                        an der Universität Stuttgart studiert. Im Master lag mein Fokus auf
+                        mathematischer und physikalischer Modellbildung sowie Raumfahrt und
+                        Weltraumnutzung.
+                    </p>
+                    <p>
+                        Während meiner Masterarbeit und später als wissenschaftlicher
+                        Mitarbeiter am Deutschen Zentrum für Luft- und Raumfahrt (DLR)
+                        arbeitete ich an optischer Messtechnik, Hochdruck-Verbrennungsanlagen
+                        und datengetriebenen Auswertungen mit Python. Parallel habe ich mich
+                        intensiv mit Kernenergietechnologien, Reaktorphysik und nuklearer
+                        Materialwissenschaft beschäftigt.
+                    </p>
+                    <p>
+                        Zudem biete ich nebenbei Nachhilfe in den MINT-Schulfächern an.
+                    </p>
+                </div>
+
+                <div class="card-grid">
+                    <article class="card">
+                        <h3>Akademischer Hintergrund</h3>
+                        <ul>
+                            <li>
+                            M.Sc. Luft- und Raumfahrttechnik, Universität Stuttgart
+                            <ul>
+                                <li><a class="links" href="https://elib.dlr.de/202546/">Masterarbeit</a> am DLR zu optischer Messtechnik</li>
+                                <li>Vertiefung: Mathematische und physikalische Modellbildung, Raumfahrt und Weltraumnutzung</li>
+                            </ul>
+                            </li>
+                        <ul></ul>
+
+                            <li>
+                            B.Sc. Maschinenbau, Universität Stuttgart
+                            <ul>
+                                <li>Abschlussarbeit am IHS zu Strömungssimulation</li>
+                                <li>Vertiefung: Thermodynamik, Strömungsmechanik und Farhzeugantriebe</li>
+                            </ul>
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="card">
+                        <h3>Was mich motiviert</h3>
+                        <ul>
+                            Die Schnittstelle aus Theorie und Praxis: Modelle entwickeln,
+                            Experimente planen, Daten auswerten und daraus robuste
+                            technische Lösungen ableiten – insbesondere in sicherheitskritischen 
+                            Bereichen und in Gebieten mit viel Entwicklungspotential wie 
+                            Energie- und Antriebstechnik.
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills" class="section section-muted reveal">
+            <div class="container">
+                <h4>Skills & Technologien</h4>
+                <div class="skills-layout">
+                    <div class="skill-column">
+                        <h3>Programmierung & Daten</h3>
+                        <ul>
+                            <li>Python (NumPy, Pandas, Auswerteskripte)</li>
+                            <li>MATLAB</li>
+                            <li>Datenvisualisierung & Reporting</li>
+                            <li>Git / GitLab</li>
+                            <li>HTML</li>
+                        </ul>
+                    </div>
+                    <div class="skill-column">
+                        <h3>Engineering & Simulation</h3>
+                        <ul>
+                            <li>CAD: Siemens NX, CATIA, Inventor</li>
+                            <li>Strömungsmechanik & Thermodynamik</li>
+                            <li>ANSYS CFX (Grundkenntnisse)</li>
+                            <li>Versuchsplanung und -durchführung</li>
+                            <li>Optische Messtechnik</li>
+                        </ul>
+                    </div>
+                    <div class="skill-column">
+                        <h3>Forschung & Kommunikation</h3>
+                        <ul>
+                            <li>Labor- und Versuchsaufbauten</li>
+                            <li>Versuchsplanung und -durchführung</li>
+                            <li>Technische Dokumentation (DE/EN)</li>
+                            <li>Co-Autor eines wissenschaftlichen Papers 
+                            (<a class="links" href="https://asmedigitalcollection.asme.org/GT/proceedings-abstract/GT2024/87943/V03AT04A028/1203911">ASME</a>)
+                            <li>Teamarbeit & interdisziplinäre Projekte</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Erfahrung -->
+        <section id="experience" class="section reveal">
+            <div class="container">
+                <h5>Mein Werdegang</h5>
+                <div class="timeline">
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceDLR">Wissenschaftlicher Mitarbeiter · DLR</h3>
+                            <span class="badge">Institut für Verbrennungstechnologie</span>
+                        </div>
+                        <p>
+                            Unterstützung und Durchführung von Hochdruck-Verbrennungsversuchen,
+                            Planung und Koordination von Laborumbauten, Datenauswertung mit
+                            Python, DaVis und Origin sowie Erstellung technischer Berichte in
+                            Deutsch und Englisch.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3>Masterarbeit · DLR</h3>
+                            <span class="badge">Thesis</span>
+                        </div>
+                        <p>
+                            Entwicklung und Validierung optischer Messverfahren zur
+                            Untersuchung von Flüssigkeitsfilmen, inkl. eigenständiger
+                            Versuchsplanung, Python-Auswerteskripten und Vergleich
+                            verschiedener Sensorikmethoden.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceASE">Masterstudium · Luft- und Raumfahrttechnik</h3>
+                            <span class="badge">Master of Science</span>
+                        </div>
+                        <p>
+                            Verbesserung von MATLAB-Tools zur Datenauswertung, Nutzung von
+                            CANape zur Analyse von Testdaten und praktische Getriebeinspektionen
+                            nach Prüfstandsläufen.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceMB">Praktikum · Daimler AG</h3>
+                            <span class="badge">Hybridgetriebe</span>
+                        </div>
+                        <p>
+                            Verbesserung von MATLAB-Tools zur Datenauswertung, Nutzung von
+                            CANape zur Analyse von Testdaten und praktische Getriebeinspektionen
+                            nach Prüfstandsläufen.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceME">Bachelorarbeit · IHS</h3>
+                            <span class="badge">Thesis</span>
+                        </div>
+                        <p>
+                            In meiner Bachelorarbeit untersuchte ich am Institut für hydraulische 
+                            Strömungsmaschinen (IHS) den Zusammenhang von Simulationsaufwand und -ergebnissen 
+                            bei der Berechnung von Ein- und Zweiphasenströmungen in Francisturbinen mit dem Ziel 
+                            den Simulationsaufwand auf ein erforderiches Minimum zu reduzieren.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceME">Bachelorstudium · Maschinenbau</h3>
+                            <span class="badge">Bachelor of Science</span>
+                        </div>
+                        <p>
+                            Verbesserung von MATLAB-Tools zur Datenauswertung, Nutzung von
+                            CANape zur Analyse von Testdaten und praktische Getriebeinspektionen
+                            nach Prüfstandsläufen.
+                        </p>
+                    </article>
+                    <article class="timeline-item reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceME">Schule · Technisches Gymnasium</h3>
+                            <span class="badge">Abitur</span>
+                        </div>
+                        <p>
+                            Mein Abitur absolvierte ich auf dem technischen Gymnasium des Beruflichen 
+                            Schulzentrums (BSZ) in Bietigheim-Bissingen. Ich entschied mich für das 
+                            Profilfach Technik und Management, das mich zum einen bereits auf das 
+                            Maschinenbaustudium vorbereitete und mir wichtiges Wirtschaftswissen 
+                            vermittelte
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interessen -->
+        <section id="projects" class="section section-interests reveal">
+            <div class="container">
+                <h4>Meine Interessen</h4>
+                <div class="interest-grid">
+                    <article class="interest-card reveal-interest">
+                        <h3>Luft- und Raumfahrt & Antriebe</h3>
+                        <p>
+                        Antriebssysteme, Strömungsdynamik und Energiesysteme in Luft- und Raumfahrtanwendungen.
+                        Besonders innovative und alternative Antriebskonzepte wecken mein Interesse.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Kernenergietechnik</h3>
+                        <p>
+                        Reaktorphysik, Neutronik, Generation-IV-Konzepte sowie das Werkstoffverhalten unter
+                        Strahlung – als eigenständiges, vertiefendes Studium parallel zu Studium und Beruf.
+                        </p>
+                    </article>
+                    
+                    <article class="interest-card reveal-interest">
+                        <h3>Fusionsenergie</h3>
+                        <p>
+                        Physikalische Grundlagen und technologische Konzepte der Fusionsenergie mit Fokus auf
+                        Plasmaphysik, Reaktorkonzepte und die systemtechnische Realisierbarkeit zukünftiger
+                        Fusionskraftwerke.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Datengetriebene Modelle & KI</h3>
+                        <p>
+                        Einsatz von Python und numerischen Methoden zur Verknüpfung experimenteller Messdaten
+                        mit physikalischen Modellen. Aktuell erweitere ich meine Kenntnisse durch das Erlernen
+                        von C++ für leistungsnahe und effiziente Implementierungen.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Theoretische & angewandte Physik</h3>
+                        <p>
+                        Grundlagen der Quantenmechanik und Spektroskopie aus dem Masterstudium, ergänzt durch
+                        vertiefendes Selbststudium zur mathematischen Durchdringung physikalischer Konzepte.
+                        Weitere Interessen umfassen Relativitätstheorie und Teilchenbeschleuniger.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Astronomie</h3>
+                        <p>
+                        Praktische astronomische Beobachtung im Rahmen einer universitären Prüfungsleistung,
+                        einschließlich der Analyse eines Exoplanetentransits. Dabei sammelte ich Erfahrung im
+                        ferngesteuerten Betrieb eines Teleskops am Sierra Remote Observatory in Kalifornien.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Finanzmathematik</h3>
+                        <p>
+                        Aus langjährigem Interesse an Finanzmärkten befasse ich mich mit der mathematischen
+                        Modellierung und Bewertung von Finanzderivaten, insbesondere Optionspreismodellen
+                        wie dem Black-Scholes-Ansatz.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Neurowissenschaften</h3>
+                        <p>
+                        Ausgehend von Parallelen zwischen Lernprozessen künstlicher Intelligenz und dem
+                        menschlichen Gehirn entwickelte sich mein Interesse an Neurowissenschaften. Dabei
+                        fasziniert mich insbesondere die Frage, wie biologische Prinzipien in technologische
+                        Systeme übertragen werden können.
+                        </p>
+
+                    </article>
+                    <article class="interest-card reveal-interest">
+                        <h3>Philosophie</h3>
+                        <p>
+                        Philosophie begleitet mich seit früher Jugend und legte den Grundstein für meine
+                        Faszination für Naturwissenschaften und Mathematik. Die Auseinandersetzung mit
+                        Denkern wie Platon, Aristoteles, Schopenhauer und Nietzsche prägte mein Interesse an
+                        grundlegenden Fragen von Erkenntnis, Wirklichkeit und Wissenschaft.
+                        </p>
+
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kontakt -->
+        <section id="contact" class="section">
+            <div class="container contact-layout">
+                <div>
+                    <h2>Kontakt</h2>
+                    <p>
+                        Du möchtest mit mir über eine Position, ein Forschungsprojekt
+                        oder eine Zusammenarbeit sprechen, oder dich einer über eines 
+                        der obengenannten Themen austauschen? Dann lass mir gerne eine 
+                        Nachricht zukommen:
+                    </p>
+                    <ul class="contact-list">
+                        <li><span>E-Mail</span><a href="mailto:dennis.poulios@gmx.de">dennis.poulios@gmx.de</a></li>
+                        <li><span>Weblinks</span><a href="https://www.linkedin.com/in/dennis-poulios-2b7a7a250/?locale=de_DE" target="_blank">LinkedIn</a>
+                            <a href="https://www.xing.com/profile/Dennis_Poulios/web_profiles" target="_blank">Xing</a>
+                        <li><span>Standort</span>Stuttgart, Deutschland</li>
+                    </ul>
+                </div>
+                <div class="contact-note">
+                    <div class="note-card">
+                        <h3>Hinweis</h3>
+                        <p>
+                            Dieses Kontaktformular ist bewusst minimal gehalten. Am
+                            einfachsten erreichen Sie mich per E-Mail oder über LinkedIn.
+                        </p>
+                        <p class="note-secondary">
+                            Gerne sende ich auf Anfrage auch meinen vollständigen
+                            Lebenslauf sowie weitere Unterlagen zu.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>© <span id="year"></span> Dennis Poulios</span>
+            <span>Engineering · Research · Data</span>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
