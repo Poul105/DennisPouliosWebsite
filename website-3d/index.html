@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dennis Poulios – Engineering & Research</title>
+    <meta name="description" content="Dennis Poulios – Ingenieur für Energie-, Antriebstechnik und experimentelle Physik (M.Sc. Luft- und Raumfahrttechnik, DLR).">
+
+    <!-- Vorschau beim Teilen (LinkedIn, Messenger). TODO: og:url und og:image mit deiner Domain ergänzen -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dennis Poulios – Engineering & Research">
+    <meta property="og:description" content="Testingenieur für dynamische Crashtests bei RECARO, zuvor DLR. Energie-, Antriebstechnik und experimentelle Physik.">
+    <meta property="og:locale" content="de_DE">
+    <!-- <meta property="og:url" content="https://DEINE-DOMAIN.de/"> -->
+    <!-- <meta property="og:image" content="https://DEINE-DOMAIN.de/images/og-preview.jpg"> -->
+    <link rel="alternate" hreflang="en" href="en/index.html">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Three.js für den 3D-Hintergrund (Version fest gepinnt) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script src="scene.js" defer></script>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <!-- 3D-Hintergrund -->
+    <canvas id="bg3d" aria-hidden="true"></canvas>
+    <div class="bg-veil" aria-hidden="true"></div>
+    <div class="sim-hud" aria-hidden="true">
+        <span class="sim-hud__title"></span>
+        <span class="sim-hud__param"></span>
+    </div>
+
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="#top" class="logo">
+                <img src="images/Logo2_light.png" alt="Dennis Poulios Logo" class="logo-image" width="56" height="42">
+            </a>
+
+            <nav class="main-nav" aria-label="Hauptnavigation">
+                <a href="#about">Über mich</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Erfahrung</a>
+                <a href="#projects">Interessen</a>
+                <a href="#contact">Kontakt</a>
+                <div class="lang-switch" aria-label="Sprache wählen">
+                    <a class="lang-link" href="en/index.html" hreflang="en" aria-label="English" title="English">
+                        <span>EN</span>
+                    </a>
+                    <a class="lang-link is-active" href="index.html" hreflang="de" aria-current="page" aria-label="Deutsch" title="Deutsch">
+                        <span>DE</span>
+                    </a>
+                </div>
+            </nav>
+
+            <button class="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" aria-label="Menü öffnen">
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+            </button>
+
+            <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile Navigation">
+                <a href="#about">Über mich</a>
+                <a href="#skills">Skills</a>
+                <a href="#experience">Erfahrung</a>
+                <a href="#projects">Interessen</a>
+                <a href="#contact">Kontakt</a>
+                <div class="lang-switch" aria-label="Sprache wählen">
+                    <a class="lang-link" href="en/index.html" hreflang="en" aria-label="English" title="English">
+                        <span>EN</span>
+                    </a>
+                    <a class="lang-link is-active" href="index.html" hreflang="de" aria-current="page" aria-label="Deutsch" title="Deutsch">
+                        <span>DE</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <p class="eyebrow fade-in delay-1">Ingenieur · Forschung · Analyse</p>
+                    <h1 class="fade-in delay-2">
+                        Ingenieur mit Leidenschaft
+                        für Energie-, Antriebstechnik und experimentelle Physik.
+                    </h1>
+                    <p class="hero-sub fade-in delay-3">
+                        Ich verbinde analytische Modellierung, Versuchserfahrung und
+                        datengetriebene Auswertung, um komplexe technische Systeme
+                        besser zu verstehen – von Hochdruck-Verbrennungsanlagen bis
+                        zur Crashsicherheit in der Luftfahrt.
+                    </p>
+                    <p class="hero-status fade-in delay-3">Aktuell: Testingenieur bei RECARO · offen für Austausch zu Forschung, Energie- und Antriebstechnik.</p>
+                    <div class="hero-actions fade-in delay-4">
+                        <a href="#contact" class="btn primary">Kontakt aufnehmen</a>
+                        <a href="#experience" class="btn subtle">Werdegang ansehen</a>
+                    </div>
+                </div>
+
+                <div class="hero-panel glass fade-in delay-5">
+                    <img src="images/Bild_Lebenslauf_woBG3.png" alt="Porträt von Dennis Poulios" class="profile-image">
+                    <p class="panel-name">Dennis Poulios</p>
+                    <div class="pill-row">
+                        <a href="#experienceRECARO" class="pill">RECARO</a>
+                        <a href="#experienceDLR" class="pill">DLR</a>
+                        <a href="#experienceASE" class="pill">M.Sc. Luft- &amp; Raumfahrttechnik</a>
+                        <a href="#experienceMB" class="pill">Daimler</a>
+                        <a href="#experienceME" class="pill">B.Sc. Maschinenbau</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-label">Schwerpunkte</span>
+                            <span class="stat-value">Antriebe, Energiesysteme, Modellierung</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Erfahrung</span>
+                            <span class="stat-value">Dynamische Crashtests, Versuchsdurchführung, Laboraufbau, optische Messtechnik, Datenauswertung, Projektverantwortung</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Interessen</span>
+                            <span class="stat-value">Luft- und Raumfahrt, Kernenergie, Strahlungsphysik, Finanzmarkt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="scene-gap" data-scene="rocket" aria-hidden="true"></div>
+
+        <!-- Über mich -->
+        <section id="about" class="section">
+            <div class="container two-column">
+                <div class="glass prose-card reveal">
+                    <h2>Über mich</h2>
+                    <p>
+                        Ich habe Maschinenbau (B.Sc.) und Luft- und Raumfahrttechnik (M.Sc.)
+                        an der Universität Stuttgart studiert. Im Master lag mein Fokus auf
+                        mathematischer und physikalischer Modellbildung sowie Raumfahrt und
+                        Weltraumnutzung.
+                    </p>
+                    <p>
+                        Während meiner Masterarbeit und später als wissenschaftlicher
+                        Mitarbeiter am Deutschen Zentrum für Luft- und Raumfahrt (DLR)
+                        arbeitete ich an optischer Messtechnik, Hochdruck-Verbrennungsanlagen
+                        und datengetriebenen Auswertungen mit Python. Parallel habe ich mich
+                        intensiv mit Kernenergietechnologien, Reaktorphysik und nuklearer
+                        Materialwissenschaft beschäftigt.
+                    </p>
+                    <p>
+                        Seit 2026 arbeite ich als Testingenieur bei RECARO Aircraft Seating
+                        und bin dort für dynamische Crashtests von Flugzeugsitzen zuständig.
+                    </p>
+                    <p>
+                        Zudem biete ich nebenbei Nachhilfe in den MINT-Schulfächern an.
+                    </p>
+                </div>
+
+                <div class="card-grid">
+                    <article class="card glass reveal">
+                        <h3>Akademischer Hintergrund</h3>
+                        <ul>
+                            <li>
+                                M.Sc. Luft- und Raumfahrttechnik, Universität Stuttgart
+                                <ul>
+                                    <li><a class="links" href="https://elib.dlr.de/202546/" target="_blank" rel="noopener">Masterarbeit</a> am DLR zu optischer Messtechnik</li>
+                                    <li>Vertiefung: Mathematische und physikalische Modellbildung, Raumfahrt und Weltraumnutzung</li>
+                                </ul>
+                            </li>
+                            <li>
+                                B.Sc. Maschinenbau, Universität Stuttgart
+                                <ul>
+                                    <li>Abschlussarbeit am IHS zu Strömungssimulation</li>
+                                    <li>Vertiefung: Thermodynamik, Strömungsmechanik und Fahrzeugantriebe</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="card glass reveal">
+                        <h3>Was mich motiviert</h3>
+                        <p>
+                            Die Schnittstelle aus Theorie und Praxis: Modelle entwickeln,
+                            Experimente planen, Daten auswerten und daraus robuste
+                            technische Lösungen ableiten – insbesondere in sicherheitskritischen
+                            Bereichen und in Gebieten mit viel Entwicklungspotential wie
+                            Energie- und Antriebstechnik.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="scene-gap" data-scene="earth" aria-hidden="true"></div>
+
+        <!-- Skills -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title reveal">Skills &amp; Technologien</h2>
+                <div class="skills-layout">
+                    <div class="skill-column glass reveal">
+                        <h3>Programmierung &amp; Daten</h3>
+                        <ul>
+                            <li>Python (NumPy, Pandas, Auswerteskripte)</li>
+                            <li>MATLAB</li>
+                            <li>Datenvisualisierung &amp; Reporting</li>
+                            <li>Git / GitLab</li>
+                            <li>HTML</li>
+                        </ul>
+                    </div>
+                    <div class="skill-column glass reveal">
+                        <h3>Engineering &amp; Simulation</h3>
+                        <ul>
+                            <li>CAD: Siemens NX, CATIA, Inventor</li>
+                            <li>Strömungsmechanik &amp; Thermodynamik</li>
+                            <li>ANSYS CFX (Grundkenntnisse)</li>
+                            <li>Dynamische Crashtests (CS/FAR 25.562)</li>
+                            <li>Optische Messtechnik</li>
+                        </ul>
+                    </div>
+                    <div class="skill-column glass reveal">
+                        <h3>Forschung &amp; Kommunikation</h3>
+                        <ul>
+                            <li>Labor- und Versuchsaufbauten</li>
+                            <li>Messdatenerfassung &amp; Hochgeschwindigkeitsvideo</li>
+                            <li>Versuchsplanung und -durchführung</li>
+                            <li>Technische Dokumentation (DE/EN)</li>
+                            <li>Wissenschaftliches Publizieren (<a class="links" href="#publications">ASME Turbo Expo 2024</a>)</li>
+                            <li>Teamarbeit &amp; interdisziplinäre Projekte</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="scene-gap" data-scene="airfoil" aria-hidden="true"></div>
+
+        <!-- Erfahrung -->
+        <section id="experience" class="section">
+            <div class="container">
+                <h2 class="section-title reveal">Mein Werdegang</h2>
+                <div class="timeline">
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceRECARO">Testingenieur Dynamische Tests · RECARO Aircraft Seating</h3>
+                            <span class="badge">seit 2026</span>
+                        </div>
+                        <p>
+                            Planung, Durchführung und Auswertung dynamischer Schlittentests (16g-Crashtests)
+                            für Flugzeugsitze im Rahmen der Zulassung nach CS/FAR 25.562. Instrumentierung mit
+                            Crashtest-Dummys, Beschleunigungs- und Kraftsensoren sowie Hochgeschwindigkeitskameras,
+                            Auswertung der Insassenbelastungen und Erstellung der Testdokumentation.
+                        </p>
+                    </article>
+                    <!-- TODO: Zeiträume ergänzen, z. B. <span class="badge">2023–2025</span> -->
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceDLR">Wissenschaftlicher Mitarbeiter · DLR</h3>
+                            <span class="badge">Institut für Verbrennungstechnologie</span>
+                        </div>
+                        <p>
+                            Unterstützung und Durchführung von Hochdruck-Verbrennungsversuchen,
+                            Planung und Koordination von Laborumbauten, Datenauswertung mit
+                            Python, DaVis und Origin sowie Erstellung technischer Berichte in
+                            Deutsch und Englisch.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3>Masterarbeit · DLR</h3>
+                            <span class="badge">2023</span>
+                        </div>
+                        <p>
+                            Entwicklung und Validierung optischer Messverfahren zur
+                            Untersuchung von Flüssigkeitsfilmen, inkl. eigenständiger
+                            Versuchsplanung, Python-Auswerteskripten und Vergleich
+                            verschiedener Sensorikmethoden.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceASE">Masterstudium · Luft- und Raumfahrttechnik</h3>
+                            <span class="badge">Master of Science</span>
+                        </div>
+                        <p>
+                            Studium an der Universität Stuttgart mit Vertiefung in mathematischer und
+                            physikalischer Modellbildung sowie Raumfahrt und Weltraumnutzung. Abschluss mit
+                            einer Masterarbeit am DLR zu optischen Messverfahren für Wandfilmdicken.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceMB">Praktikum · Daimler AG</h3>
+                            <span class="badge">Hybridgetriebe</span>
+                        </div>
+                        <p>
+                            Verbesserung von MATLAB-Tools zur Datenauswertung, Nutzung von
+                            CANape zur Analyse von Testdaten und praktische Getriebeinspektionen
+                            nach Prüfstandsläufen.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceBA">Bachelorarbeit · IHS</h3>
+                            <span class="badge">Thesis</span>
+                        </div>
+                        <p>
+                            In meiner Bachelorarbeit untersuchte ich am Institut für hydraulische
+                            Strömungsmaschinen (IHS) den Zusammenhang von Simulationsaufwand und -ergebnissen
+                            bei der Berechnung von Ein- und Zweiphasenströmungen in Francisturbinen mit dem Ziel,
+                            den Simulationsaufwand auf ein erforderliches Minimum zu reduzieren.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceME">Bachelorstudium · Maschinenbau</h3>
+                            <span class="badge">Bachelor of Science</span>
+                        </div>
+                        <p>
+                            Studium an der Universität Stuttgart mit Vertiefung in Thermodynamik,
+                            Strömungsmechanik und Fahrzeugantrieben. Abschluss mit einer Bachelorarbeit
+                            am IHS zur Strömungssimulation in Francisturbinen.
+                        </p>
+                    </article>
+                    <article class="timeline-item glass reveal-item">
+                        <div class="timeline-header">
+                            <h3 id="experienceSchool">Schule · Technisches Gymnasium</h3>
+                            <span class="badge">Abitur</span>
+                        </div>
+                        <p>
+                            Mein Abitur absolvierte ich auf dem technischen Gymnasium des Beruflichen
+                            Schulzentrums (BSZ) in Bietigheim-Bissingen. Ich entschied mich für das
+                            Profilfach Technik und Management, das mich bereits auf das
+                            Maschinenbaustudium vorbereitete und mir wichtiges Wirtschaftswissen
+                            vermittelte.
+                        </p>
+                    </article>
+                </div>
+
+                <h3 id="publications" class="subsection-title reveal">Veröffentlichungen</h3>
+                <div class="pub-list">
+                    <article class="pub glass reveal">
+                        <span class="pub-meta">Konferenzbeitrag · ASME Turbo Expo 2024, London</span>
+                        <p class="pub-title">Advancements in Wall Film Thickness Measurement under High Pressure and High Temperature Conditions for Gas Turbine Applications</p>
+                        <p class="pub-authors">Z. Yin, O. Lammel, R. Lückerath, H. Ax, <strong>D. Poulios</strong></p>
+                        <a class="links" href="https://doi.org/10.1115/GT2024-123836" target="_blank" rel="noopener">doi: 10.1115/GT2024-123836</a>
+                    </article>
+                    <article class="pub glass reveal">
+                        <span class="pub-meta">Masterarbeit · Universität Stuttgart / DLR, 2023</span>
+                        <p class="pub-title">Validation and Further Development of Optical Measurement Methods for Determining Wall Film Thickness</p>
+                        <p class="pub-authors"><strong>D. Poulios</strong></p>
+                        <a class="links" href="https://elib.dlr.de/202546/" target="_blank" rel="noopener">DLR elib 202546</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="scene-gap" data-scene="spectro" aria-hidden="true"></div>
+
+        <!-- Interessen -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title reveal">Meine Interessen</h2>
+                <div class="interest-grid">
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Luft- und Raumfahrt &amp; Antriebe</h3>
+                        <p>
+                            Antriebssysteme, Strömungsdynamik und Energiesysteme in Luft- und Raumfahrtanwendungen.
+                            Besonders innovative und alternative Antriebskonzepte wecken mein Interesse.
+                        </p>
+                    </article>
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Kernenergie: Spaltung &amp; Fusion</h3>
+                        <p>
+                            Reaktorphysik, Neutronik, Generation-IV-Konzepte und Werkstoffverhalten unter Strahlung –
+                            als eigenständiges Studium parallel zu Studium und Beruf. Dazu Plasmaphysik, Reaktorkonzepte
+                            und die systemtechnische Realisierbarkeit zukünftiger Fusionskraftwerke.
+                        </p>
+                    </article>
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Datengetriebene Modelle &amp; KI</h3>
+                        <p>
+                            Einsatz von Python und numerischen Methoden zur Verknüpfung experimenteller Messdaten
+                            mit physikalischen Modellen. Aktuell erweitere ich meine Kenntnisse durch das Erlernen
+                            von C++ für leistungsnahe und effiziente Implementierungen.
+                        </p>
+                    </article>
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Theoretische &amp; angewandte Physik</h3>
+                        <p>
+                            Grundlagen der Quantenmechanik und Spektroskopie aus dem Masterstudium, ergänzt durch
+                            vertiefendes Selbststudium zur mathematischen Durchdringung physikalischer Konzepte.
+                            Weitere Interessen umfassen Relativitätstheorie und Teilchenbeschleuniger.
+                        </p>
+                    </article>
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Astronomie</h3>
+                        <p>
+                            Praktische astronomische Beobachtung im Rahmen einer universitären Prüfungsleistung,
+                            einschließlich der Analyse eines Exoplanetentransits. Dabei sammelte ich Erfahrung im
+                            ferngesteuerten Betrieb eines Teleskops am Sierra Remote Observatory in Kalifornien.
+                        </p>
+                    </article>
+                    <article class="interest-card glass reveal-interest">
+                        <h3>Darüber hinaus</h3>
+                        <p>
+                            <strong>Finanzmathematik:</strong> Modellierung und Bewertung von Derivaten, etwa mit dem
+                            Black-Scholes-Ansatz. <strong>Neurowissenschaften:</strong> wie sich biologische Lernprinzipien
+                            auf technische Systeme übertragen lassen. <strong>Philosophie:</strong> von Platon und
+                            Aristoteles bis Schopenhauer und Nietzsche – der Ursprung meiner Faszination für
+                            Naturwissenschaft und Mathematik.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="scene-gap" data-scene="fission" aria-hidden="true"></div>
+
+        <!-- Kontakt -->
+        <section id="contact" class="section">
+            <div class="container contact-layout">
+                <div class="glass prose-card reveal">
+                    <h2>Kontakt</h2>
+                    <p>
+                        Du möchtest mit mir über eine Position, ein Forschungsprojekt
+                        oder eine Zusammenarbeit sprechen oder dich über eines
+                        der oben genannten Themen austauschen? Dann lass mir gerne eine
+                        Nachricht zukommen:
+                    </p>
+                    <ul class="contact-list">
+                        <li><span>E-Mail</span><a href="mailto:dennis.poulios@gmx.de">dennis.poulios@gmx.de</a></li>
+                        <li><span>Weblinks</span>
+                            <a href="https://www.linkedin.com/in/dennis-poulios-2b7a7a250/?locale=de_DE" target="_blank" rel="noopener">LinkedIn</a>
+                            <a href="https://www.xing.com/profile/Dennis_Poulios/web_profiles" target="_blank" rel="noopener">Xing</a>
+                        </li>
+                        <li><span>Standort</span>Stuttgart, Deutschland</li>
+                    </ul>
+                </div>
+                <div class="contact-note">
+                    <div class="note-card glass reveal">
+                        <h3>Hinweis</h3>
+                        <p>
+                            Am einfachsten erreichst du mich per E-Mail oder über LinkedIn.
+                        </p>
+                        <p class="note-secondary">
+                            Gerne sende ich auf Anfrage auch meinen vollständigen
+                            Lebenslauf sowie weitere Unterlagen zu.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>© <span id="year"></span> Dennis Poulios</span>
+            <nav class="footer-links" aria-label="Rechtliches">
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </nav>
+            <p class="footer-note">
+                Über diese Website: Die Hintergrundanimationen sind selbst programmierte Echtzeit-Simulationen
+                (Three.js/WebGL) auf Basis physikalischer Modelle – u. a. exakte Potentialströmung um ein
+                Joukowski-Profil, Umlaufzeit nach Kepler, Spaltkanal von U-235 mit Impulserhaltung und
+                Transit-Lichtkurve mit Randverdunkelung.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
