@@ -459,22 +459,43 @@
       wing.add(new THREE.Mesh(wingGeo, [capMat, sideMat]));
 
       // Rechengitter im Hintergrund
-      const grid = new THREE.GridHelper(30, 30, 0x2a6f9a, 0x173247);
-      grid.rotation.x = Math.PI / 2;
+      //   (läuft kreisförmig weich aus, keine harten Kanten)
+      const grid = new THREE.Mesh(
+        new THREE.PlaneGeometry(40, 40),
+        new THREE.ShaderMaterial({
+          vertexShader: /* glsl */ `varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+          fragmentShader: /* glsl */ `
+            varying vec2 vP;
+            void main() {
+              vec2 q = vP;                                   // 1 Gitterzelle = 1 Einheit
+              vec2 w = fwidth(q);
+              vec2 l = 1.0 - smoothstep(vec2(0.0), w * 1.2, abs(fract(q - 0.5) - 0.5));
+              float line = max(l.x, l.y);
+              vec2 l5 = 1.0 - smoothstep(vec2(0.0), w * 1.6, abs(fract(q / 5.0 - 0.5) - 0.5) * 5.0);
+              float major = max(l5.x, l5.y);
+              float fade = 1.0 - smoothstep(5.0, 17.0, length(vP));
+              vec3 col = mix(vec3(0.09, 0.2, 0.28), vec3(0.16, 0.44, 0.6), major);
+              gl_FragColor = vec4(col, max(line * 0.45, major * 0.6) * fade);
+              #include <colorspace_fragment>
+            }`,
+          transparent: true, depthWrite: false,
+        })
+      );
       grid.position.z = -SPAN * S / 2 - 2.5;
-      grid.material.transparent = true; grid.material.opacity = 0.35; grid.material.depthWrite = false;
       g.add(grid);
 
       // Partikel mit Spurhistorie
       const N = Math.round(3000 * Q), H = 10;
-      const X0 = 6, Y0 = 3.2;
+      const X0 = 7, Y0 = 4.2, SIG = 1.45;   // SIG: Breite der Partikelwolke um das Profil
       const sx = new Float32Array(N), sy = new Float32Array(N), zs = new Float32Array(N), age = new Float32Array(N), sp = new Float32Array(N);
       const hist = new Float32Array(N * H * 3);
       let hp = 0, sampleAcc = 0;
 
       function spawn(i, anywhere) {
         for (let tries = 0; tries < 30; tries++) {
-          const X = anywhere ? rand(-X0, X0) : -X0 - Math.random() * 0.4, Y = rand(-Y0, Y0);
+          // Normalverteilung (Box-Muller): dicht am Profil, nach außen immer seltener
+          const gauss = Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
+          const X = anywhere ? rand(-X0, X0) : -X0 - Math.random() * 0.4, Y = clamp(gauss * SIG, -Y0, Y0);
           const d = invJ(X * ca - Y * sa, X * sa + Y * ca, tz);
           if (d > R2 * 1.002) break;
         }
@@ -523,6 +544,14 @@
           for (let i = 0; i < N; i++) { J(sx[i], sy[i], tz); const o = (i * H + hp) * 3; hist[o] = tz[0]; hist[o + 1] = tz[1]; hist[o + 2] = sp[i]; }
         }
       }
+      // Weiches Ausblenden: x zu Ein-/Austritt, y nach außen, z zu den Flügelenden
+      function edgeFade(x, y, z) {
+        const X = x * ca + y * sa, Y = -x * sa + y * ca;
+        const fx = smooth(X0, X0 - 2.2, Math.abs(X));
+        const fy = Math.exp(-((Y / 2.6) ** 2));
+        const fz = 0.35 + 0.65 * smooth(SPAN * 0.5, SPAN * 0.3, Math.abs(z));
+        return fx * fy * fz;
+      }
       function buildLines() {
         let v = 0;
         for (let i = 0; i < N; i++) {
@@ -532,9 +561,9 @@
           for (let k = 0; k < H; k++) {
             const o = (i * H + ((hp - k + H) % H)) * 3;
             const f0 = (1 - k / H) ** 2 * 0.95, f1 = (1 - (k + 1) / H) ** 2 * 0.95;
-            lpos[v * 3] = px; lpos[v * 3 + 1] = py; lpos[v * 3 + 2] = z; speedColor(ps, lcol, v * 3, f0); v++;
+            lpos[v * 3] = px; lpos[v * 3 + 1] = py; lpos[v * 3 + 2] = z; speedColor(ps, lcol, v * 3, f0 * edgeFade(px, py, z)); v++;
             px = hist[o]; py = hist[o + 1]; ps = hist[o + 2];
-            lpos[v * 3] = px; lpos[v * 3 + 1] = py; lpos[v * 3 + 2] = z; speedColor(ps, lcol, v * 3, f1); v++;
+            lpos[v * 3] = px; lpos[v * 3 + 1] = py; lpos[v * 3 + 2] = z; speedColor(ps, lcol, v * 3, f1 * edgeFade(px, py, z)); v++;
           }
         }
         lgeo.attributes.position.needsUpdate = true;
@@ -1439,7 +1468,7 @@
     // ======================================================================
     function buildStar() {
       const g = new THREE.Group();
-      const Rs = 8, Rp = 2.0, orbitR = 16, Dc = 36;   // Rp: Planetenradius (größer = deutlicher)
+      const Rs = 8, Rp = 0.5, orbitR = 16, Dc = 36;   // Rp: Planetenradius (größer = deutlicher)
       const starMat = new THREE.ShaderMaterial({
         uniforms: { uTime: common.uTime, uBright: { value: 2.4 } },   // Sternhelligkeit
         vertexShader: /* glsl */ `
@@ -1582,11 +1611,11 @@
     // ======================================================================
     const ST = {
       rocket: Object.assign(buildRocket(), { pos: new THREE.Vector3(0, 0, 0) }),
-      earth: Object.assign(buildEarth(), { pos: new THREE.Vector3(90, -60, -50) }),
-      airfoil: Object.assign(buildAirfoil(), { pos: new THREE.Vector3(-30, -130, -40) }),
-      spectro: Object.assign(buildSpectro(), { pos: new THREE.Vector3(70, -200, -70) }),
-      fission: Object.assign(buildFission(), { pos: new THREE.Vector3(0, -280, -170) }),
-      star: Object.assign(buildStar(), { pos: new THREE.Vector3(-60, -360, -120) }),
+      earth: Object.assign(buildEarth(), { pos: new THREE.Vector3(61, -35, 0) }),
+      airfoil: Object.assign(buildAirfoil(), { pos: new THREE.Vector3(61, -105, 0) }),
+      spectro: Object.assign(buildSpectro(), { pos: new THREE.Vector3(0, -140, 0) }),
+      fission: Object.assign(buildFission(), { pos: new THREE.Vector3(-61, -105, 0) }),
+      star: Object.assign(buildStar(), { pos: new THREE.Vector3(-61, -35, 0) }),
     };
     for (const k in ST) { ST[k].group.position.copy(ST[k].pos); scene.add(ST[k].group); }
 

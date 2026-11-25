@@ -1,0 +1,3 @@
+Hier die Datei InterVariable.woff2 ablegen.
+Download: https://rsms.me/inter/ (Button "Download", im ZIP unter web/InterVariable.woff2)
+Fehlt die Datei, nutzt die Website automatisch die Systemschrift.
