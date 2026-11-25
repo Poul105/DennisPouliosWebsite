@@ -163,8 +163,8 @@ html:not(.has-webgl) .sim-hud {
 
 /* Schaufenster zwischen den Abschnitten: hier ist die 3D-Szene frei sichtbar */
 .scene-gap {
-    height: 45vh;
-    height: 45svh;
+    height: 80vh;
+    height: 80svh;
     pointer-events: none;
 }
 
@@ -896,8 +896,8 @@ a:focus-visible {
     }
 
     .scene-gap {
-        height: 35vh;
-        height: 35svh;
+        height: 60vh;
+        height: 60svh;
     }
 
     .hero {

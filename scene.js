@@ -1439,7 +1439,7 @@
     // ======================================================================
     function buildStar() {
       const g = new THREE.Group();
-      const Rs = 8, Rp = 0.5, orbitR = 16, Dc = 36;   // Rp: Planetenradius (größer = deutlicher)
+      const Rs = 8, Rp = 2.0, orbitR = 16, Dc = 36;   // Rp: Planetenradius (größer = deutlicher)
       const starMat = new THREE.ShaderMaterial({
         uniforms: { uTime: common.uTime, uBright: { value: 2.4 } },   // Sternhelligkeit
         vertexShader: /* glsl */ `
@@ -1549,7 +1549,7 @@
         group: g, key: 0.12, bloom: 0.35,   // weniger Überstrahlung über die Planetenscheibe
         light: { color: new THREE.Color(0xffc890), intensity: 900, pos: new THREE.Vector3() },
         update(dt, p, t) {
-          const ph = t * 0.5 + p * 1.2 - 0.6;
+          const ph = t * 0.157 + p * 1.2 - 0.6;
           const px = orbitR * Math.sin(ph), pz = orbitR * Math.cos(ph), py = 1.6;
           planet.position.set(px, py, pz);
           planet.rotation.y = t * 0.2;
@@ -1600,7 +1600,7 @@
       { sel: '#about', st: 'earth', cam: [0, 2.5, 29], look: [0, 0, 0], orbit: 0.5, shift: [0, 0], p: [420, 1200] },
       { sel: '#skills', st: 'airfoil', cam: [-3, 3, 24], look: [0, 0, 0], orbit: 0.5, shift: [0, 0], p: [3, 11] },
       { sel: '#experience', st: 'spectro', cam: [0, 9, 22], look: [1, 2, -3], orbit: 0.45, shift: [0, 0], p: [0.7, 1.25] },
-      { sel: '#projects', st: 'fission', cam: [0, 4, 44], look: [0, 0, 0], orbit: 0.45, shift: [0, 0], p: [0.8, 1.3] },
+      { sel: '#projects', st: 'fission', cam: [0, 4, 52], look: [0, 0, 0], orbit: 0.45, shift: [0, 0], p: [0.8, 1.3] },
       { sel: '#contact', st: 'star', cam: [0, 1.5, 36], look: [0, 0, 0], orbit: 0.0, shift: [0, 0], p: [0, 1] },
     ].filter((k) => document.querySelector(k.sel));
     if (!KEYS.length) return;
